@@ -32,6 +32,7 @@ trl.ShowArrowHead = 'off';
 %trl.LineStyle = 'none';
 %trl.Marker = '.';
 %trl.MarkerSize = 5;
+%Example Comment
 ax = gca;
 axis equal
 ax.Clipping = 'off';
