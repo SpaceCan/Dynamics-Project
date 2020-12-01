@@ -42,6 +42,7 @@ cameratoolbar('SetMode','orbit')
 %% Simulation Loop
 rold = r;
 rdotold = rdot;
+tic
 while true
     r2dot = zeros(size(r,1),size(r,2));
     for i = 1:size(r,1)
