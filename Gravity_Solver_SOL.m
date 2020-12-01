@@ -66,9 +66,9 @@ while true
     
     rold = cat(1,rold,r);
     rdotold = cat(1,rdotold,rdot);
-    if(size(rold,1) > size(r,1)*round(1/dt))
-        rold = rold((end-size(r,1)*round(1/dt)):end,:);
-        rdotold = rdotold((end-size(r,1)*round(1/dt)):end,:);
+    if(size(rold,1) > size(r,1)*round(11000000/dt))
+        rold = rold((end-size(r,1)*round(11000000/dt)):end,:);
+        rdotold = rdotold((end-size(r,1)*round(11000000/dt)):end,:);
     end
 %    rold(ones(size(rold,1),size(rold,2)).*(1:size(rold,1))' + round(1/dt) < 0) = [];
 %    rdotold(ones(size(rold,1),size(rold,2)).*(1:size(rold,1))' + round(1/dt) < 0) = [];
