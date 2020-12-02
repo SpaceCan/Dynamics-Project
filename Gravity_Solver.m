@@ -44,7 +44,7 @@ cameratoolbar('SetMode','orbit')
 rold = r;
 rdotold = rdot;
 tic
-while true
+for n = 1:400
     r2dot = zeros(size(r,1),size(r,2));
     for i = 1:size(r,1)
         for j = 1:size(r,1)
@@ -60,9 +60,9 @@ while true
     
     rold = cat(1,rold,r);
     rdotold = cat(1,rdotold,rdot);
-    if(size(rold,1) > size(r,1)*round(1/dt))
-        rold = rold((end-size(r,1)*round(1/dt)):end,:);
-        rdotold = rdotold((end-size(r,1)*round(1/dt)):end,:);
+    if(size(rold,1) > size(r,1)*round(20/dt))
+        rold = rold((end-size(r,1)*round(20/dt)):end,:);
+        rdotold = rdotold((end-size(r,1)*round(20/dt)):end,:);
     end
 %    rold(ones(size(rold,1),size(rold,2)).*(1:size(rold,1))' + round(1/dt) < 0) = [];
 %    rdotold(ones(size(rold,1),size(rold,2)).*(1:size(rold,1))' + round(1/dt) < 0) = [];
@@ -78,6 +78,7 @@ while true
     s.YData = r(:,2);
     s.ZData = r(:,3);
     calcTime=toc;
-    pause(max(dt-calcTime,0))
+    %drawnow
+    %pause(max(dt-calcTime,0))
     tic
 end

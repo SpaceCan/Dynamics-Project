@@ -1,12 +1,17 @@
 %% Setting up parameters
 clear;clc
 G = 6.674*10^-11;
+trailTime = 100000000;
 load('Inner_Planets.mat');
+
 %% Setting up spacial plot
+figure('Color',[0.08 0.08 0.08])
+
 trl = quiver3(r(:,1),r(:,2),r(:,3),...
     dt.*rdot(:,1),dt.*rdot(:,2),dt.*rdot(:,3),0);
 hold on
-s = scatter3(r(:,1),r(:,2),r(:,3),50,'filled');
+colors = colors./256;
+s = scatter3(r(:,1),r(:,2),r(:,3),log1p(m/min(m)).*25,colors,'filled');
 trl.ShowArrowHead = 'off';
 
 ax = gca;
@@ -14,11 +19,28 @@ axis equal
 ax.Clipping = 'off';
 ax.Box = 'off';
 axis([-1.496e+11 1.496e+11 -1.496e+11 1.496e+11 -1.496e+11 1.496e+11])
+ax.Color = [0.08 0.08 0.08];
+ax.GridColor = [1 1 1];
+ax.XColor = [0.9 0.9 0.9];
+ax.XAxis.LineWidth = 0.75;
+ax.YColor = [0.9 0.9 0.9];
+ax.YAxis.LineWidth = 0.75;
+ax.ZColor = [0.9 0.9 0.9];
+ax.ZAxis.LineWidth = 0.75;
+ax.YRuler.FirstCrossoverValue = 0;
+ax.XRuler.FirstCrossoverValue = 0;
+ax.ZRuler.FirstCrossoverValue = 0;
+ax.ZRuler.SecondCrossoverValue = 0;
+ax.XRuler.SecondCrossoverValue = 0; % X crossover with Z axis
+ax.YRuler.SecondCrossoverValue = 0;
 camproj('perspective')
 cameratoolbar('SetMode','orbit')
+campos([1.496e+11*2.5 1.496e+11*2.5 1.496e+11*2.5]);
+camva(30)
 %% Simulation Loop
 rold = r;
 rdotold = rdot;
+mercV = 0;
 tic
 while true
     r2dot = zeros(size(r,1),size(r,2));
@@ -36,9 +58,9 @@ while true
     
     rold = cat(1,rold,r);
     rdotold = cat(1,rdotold,rdot);
-    if(size(rold,1) > size(r,1)*round(11000000/dt))
-        rold = rold((end-size(r,1)*round(11000000/dt)):end,:);
-        rdotold = rdotold((end-size(r,1)*round(11000000/dt)):end,:);
+    if(size(rold,1) > size(r,1)*round(trailTime/dt))
+        rold = rold((end-size(r,1)*round(trailTime/dt)):end,:);
+        rdotold = rdotold((end-size(r,1)*round(trailTime/dt)):end,:);
     end
 %    rold(ones(size(rold,1),size(rold,2)).*(1:size(rold,1))' + round(1/dt) < 0) = [];
 %    rdotold(ones(size(rold,1),size(rold,2)).*(1:size(rold,1))' + round(1/dt) < 0) = [];
