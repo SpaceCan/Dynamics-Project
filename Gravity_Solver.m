@@ -44,7 +44,7 @@ cameratoolbar('SetMode','orbit')
 rold = r;
 rdotold = rdot;
 tic
-for n = 1:400
+while true
     r2dot = zeros(size(r,1),size(r,2));
     for i = 1:size(r,1)
         for j = 1:size(r,1)
