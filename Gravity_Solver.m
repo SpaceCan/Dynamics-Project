@@ -78,7 +78,7 @@ while true
     s.YData = r(:,2);
     s.ZData = r(:,3);
     calcTime=toc;
-    %drawnow
+    drawnow
     %pause(max(dt-calcTime,0))
     tic
 end
