@@ -2,7 +2,7 @@
 clear;clc
 global G m nObjects;
 G = 6.674*10^-11;
-dt = 86400*2;
+dt = 86400*4;
 t = 0:dt:2.208e+8;
 load('Inner_Planets.mat');
 y0 = [r rdot];

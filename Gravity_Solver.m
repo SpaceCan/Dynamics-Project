@@ -11,7 +11,7 @@ m_1 = 1/G;
 m_2 = 1/G;
 m_3 = 1/G;
 m = [m_1,m_2,m_3];
-%m = (exp(rand(n,1).*3)).*1/G;
+%m = (exp(rand(1,n).*3)).*1/G;
 % Initial Positions
 r_1 = [0.97000436 -0.24308753 0];
 r_2 = -r_1;
@@ -23,7 +23,7 @@ rdot_1 = [0.93240737/2 0.86473146/2 0];
 rdot_2 = [0.93240737/2 0.86473146/2 0];
 rdot_3 = [-0.93240737 -0.86473146 0];
 rdot = [rdot_1,rdot_2,rdot_3];
-%rdot = rand(n,3).*2-1;
+%rdot = rand(n*3,1).*2-1;
 % Combining initial velocities and positions into a single array
 y0 = [r,rdot];
 nObjects = round(length(r)/3);
