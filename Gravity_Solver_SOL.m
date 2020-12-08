@@ -8,7 +8,7 @@ load('Inner_Planets.mat');
 y0 = [r rdot];
 nObjects = round(length(r)/3);
 %% Setting up spacial plot
-fig = figure('Color',[0.08 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
+fig = figure('Color',[0.1 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
 
 % Trail graphics object
 trl = quiver3(r(((1:nObjects)-1)*3+1),...
