@@ -1,14 +1,14 @@
 %% Setting up parameters
-clear;clc
+clear;clc;close all
 global G m nObjects;
+load('Figure_8.mat');
+
 G = 6.674*10^-11;
-dt = 86400*4;
-t = 0:dt:2.208e+8;
-load('Inner_Planets.mat');
 y0 = [r rdot];
+t = 0:dt:t_f;
 nObjects = round(length(r)/3);
 %% Setting up spacial plot
-fig = figure('Color',[0.1 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
+fig = figure('Color',[0.08 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
 
 % Trail graphics object
 trl = quiver3(r(((1:nObjects)-1)*3+1),...
@@ -22,14 +22,15 @@ hold on
 % Planetary graphics object
 s = scatter3(r(((1:nObjects)-1)*3+1),...
              r(((1:nObjects)-1)*3+2),...
-             r(((1:nObjects)-1)*3+3),log1p(m/min(m)).*200,colors./256,'.');
+             r(((1:nObjects)-1)*3+3),pointScale,colors./256,'filled');
 
 % Axis Definitions
 ax = gca;
 axis equal
 ax.Clipping = 'off';
 ax.Box = 'off';
-axis([-1.496e+11 1.496e+11 -1.496e+11 1.496e+11 -1.496e+11 1.496e+11])
+axis(limits)
+ax.FontSize = 8;
 ax.Color = [0.08 0.08 0.08];
 ax.GridColor = [1 1 1];
 ax.XColor = [0.9 0.9 0.9];
@@ -46,13 +47,12 @@ ax.XRuler.SecondCrossoverValue = 0; % X crossover with Z axis
 ax.YRuler.SecondCrossoverValue = 0;
 camproj('perspective')
 cameratoolbar('SetMode','orbit')
-campos([1.496e+11*2.5 1.496e+11*2.5 1.496e+11*2.5])
+campos(camStart)
 camva(30)
 %% Simulation
 sol = leapfrog_solve(@a_func, y0, t);
 
 %% Animation
-tic
 for i = 2:length(t)
     
     trl.XData = sol(2:i, ((1:nObjects)-1)*3+1);
@@ -66,10 +66,8 @@ for i = 2:length(t)
     s.XData = sol(i,((1:nObjects)-1)*3+1);
     s.YData = sol(i,((1:nObjects)-1)*3+2);
     s.ZData = sol(i,((1:nObjects)-1)*3+3);
-    calcTime=toc;
     drawnow
     %pause(max(dt-calcTime,0))
-    tic
 end
 %% acceleration function
 function [ydot] = a_func(t, y)
