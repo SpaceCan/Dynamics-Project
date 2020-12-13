@@ -63,6 +63,7 @@ for i = 2:length(t)
     s.XData = sol(i,((1:nObjects)-1)*3+1);
     s.YData = sol(i,((1:nObjects)-1)*3+2);
     s.ZData = sol(i,((1:nObjects)-1)*3+3);
+    % Display time in sim in relation to current time
     time.String = datestr(seconds(t(i))+currentTime,'HH:MM:SS.FFF mm-dd-yyyy');
     drawnow
 end
