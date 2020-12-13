@@ -1,7 +1,9 @@
 %% Setting up parameters
 clear;clc;close all
 global G m nObjects;
-load('Figure_8.mat')% Loads scenario from .mat file
+% Insert dialog system here
+
+load('Inner_Planets.mat')% Loads scenario from .mat file
 
 G = 6.674*10^-11;
 y0 = [r,rdot];
@@ -92,6 +94,7 @@ function [sol] = leapfrog_solve(ydot, init, t)
 global nObjects;
 sol = zeros(length(t),nObjects*6);
 obj = 1:nObjects*3;
+% The sol matrix stores positions and velocities for every timestep
 sol(1,:) = init;
 for i = 1:length(t)-1
     step = t(i+1) - t(i);
