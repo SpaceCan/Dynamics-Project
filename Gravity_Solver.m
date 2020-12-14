@@ -3,7 +3,7 @@ clear;clc;close all
 global G m nObjects;
 % Insert dialog system here
 
-load('Inner_Planets.mat')% Loads scenario from .mat file
+load('Earth_Moon.mat')% Loads scenario from .mat file
 
 G = 6.674*10^-11;
 y0 = [r,rdot];
@@ -50,19 +50,23 @@ time.Position = [0.05 0.75 0.2 0.2];
 sol = leapfrog_solve(@a_func, y0, t);
 currentTime = now;
 %% Animation
+% change array range to adjust what timeframe the animation plays over
 for i = 2:length(t)
-    
+    % Update trail using position data since start of simulation
     trl.XData = sol(2:i, ((1:nObjects)-1)*3+1);
     trl.YData = sol(2:i, ((1:nObjects)-1)*3+2);
     trl.ZData = sol(2:i, ((1:nObjects)-1)*3+3);
     
+    % Update trail using difference in position
     trl.UData = -(sol(2:i, ((1:nObjects)-1)*3+1) - sol((2:i)-1, ((1:nObjects)-1)*3+1));
     trl.VData = -(sol(2:i, ((1:nObjects)-1)*3+2) - sol((2:i)-1, ((1:nObjects)-1)*3+2));
     trl.WData = -(sol(2:i, ((1:nObjects)-1)*3+3) - sol((2:i)-1, ((1:nObjects)-1)*3+3));
     
+    % Update bodies using current position
     s.XData = sol(i,((1:nObjects)-1)*3+1);
     s.YData = sol(i,((1:nObjects)-1)*3+2);
     s.ZData = sol(i,((1:nObjects)-1)*3+3);
+    
     % Display time in sim in relation to current time
     time.String = datestr(seconds(t(i))+currentTime,'HH:MM:SS.FFF mm-dd-yyyy');
     drawnow
@@ -76,6 +80,7 @@ rdot = y(nObjects*3+1:end);
 r2dot = zeros(1,length(r));
 % defines a vector of object indicies
 obj = 1:nObjects;
+% Loop through each object 
 for i = obj
     for j = obj(obj ~= i)
         r2dot((i-1)*3+1:i*3) = r2dot((i-1)*3+1:i*3) + (G*m(j).*(r((j-1)*3+1:j*3)-r((i-1)*3+1:i*3)))...
