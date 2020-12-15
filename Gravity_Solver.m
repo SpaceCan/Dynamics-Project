@@ -42,8 +42,9 @@ y0 = [r,rdot];
 t = 0:dt:t_f;
 nObjects = round(length(r)/3);
 %% Setting up spacial plot
-fig = figure('Color',[0.08 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
-set(fig, 'InvertHardCopy', 'off'); 
+%fig = figure('Color',[0.08 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
+fig = figure('Color',[0.08 0.08 0.08],'Units','inches','InnerPosition',[2 1 6.5 3.65]);
+set(fig, 'InvertHardCopy', 'off');
 % Trail graphics object
 trl = quiver3(r(((1:nObjects)-1)*3+1),...
               r(((1:nObjects)-1)*3+2),...
@@ -100,9 +101,10 @@ for i = 2:length(t)
     s.ZData = sol(i,((1:nObjects)-1)*3+3);
     
     % Display time in sim in relation to current time
-    time.String = datestr(seconds(t(i))+currentTime,'HH:MM:SS.FFF mm-dd-yyyy');
+    time.String = datestr(seconds(t(i)),'HH:MM:SS.FFF mm-dd-yyyy');
     drawnow
 end
+print('Inner-planets','-djpeg','-r300');
 %% acceleration function
 function [ydot] = a_func(t, y)
 % Given vector y, output its derivative (velocity and acceleration in this case)
