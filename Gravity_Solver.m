@@ -37,7 +37,6 @@ while tf==1
         end
     end
 end
-%load('Earth_Moon.mat')% Loads scenario from .mat file
 
 G = 6.674*10^-11;
 y0 = [r,rdot];
