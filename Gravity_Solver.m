@@ -13,7 +13,7 @@ t = 0:dt:t_f;
 nObjects = round(length(r)/3);
 %% Setting up spacial plot
 fig = figure('Color',[0.08 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
-
+set(fig, 'InvertHardCopy', 'off'); 
 % Trail graphics object
 trl = quiver3(r(((1:nObjects)-1)*3+1),...
               r(((1:nObjects)-1)*3+2),...
