@@ -1,7 +1,8 @@
 %% Setting up parameters
 clear;clc;close all
 global G m nObjects;
-% Insert dialog system here
+
+% Dialog box for simulations
 tf=1;
 while tf==1
     %menu text list
@@ -9,12 +10,10 @@ while tf==1
     %display the dialog box
     %cancel or <esc> closes the dialog
     [indx,tf] = listdlg('ListString',list, 'Name','Dynamics Final Project: Main Menu','PromptString',{'Please select a scenario:'},'ListSize',[350,100],'SelectionMode','single');
-    %allow for multiple selections
-   
     Nindx=numel(indx);
     
     for iindx=1:Nindx
-    %do each option selected
+    %Execute selected option
     iopt=indx(iindx);
         if iopt==1
             load('Inner_Planets.mat')
@@ -37,9 +36,6 @@ while tf==1
         end
     end
 end
-%load('Earth_Moon.mat')% Loads scenario from .mat file
-%load('Figure_8.mat')
-%load('Inner_Planets.mat')
 
 G = 6.674*10^-11;
 y0 = [r,rdot];
