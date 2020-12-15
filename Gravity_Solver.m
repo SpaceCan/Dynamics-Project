@@ -3,7 +3,9 @@ clear;clc;close all
 global G m nObjects;
 % Insert dialog system here
 
-load('Earth_Moon.mat')% Loads scenario from .mat file
+%load('Earth_Moon.mat')% Loads scenario from .mat file
+%load('Figure_8.mat')
+load('Inner_Planets.mat')
 
 G = 6.674*10^-11;
 y0 = [r,rdot];
