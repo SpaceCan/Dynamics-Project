@@ -6,10 +6,10 @@ global G m nObjects;
 tf=1;
 while tf==1
     %menu text list
-    list = {'Inner Planet Solar System Simulation', 'Figure 8 System Simulation', 'Earth and Moon Simulation', 'Random Simulation'};
+    list = {'Earth and Moon Simulation', 'Inner Planet Solar System Simulation', 'Figure 8 System Simulation', 'Random Simulation'};
     %display the dialog box
     %cancel or <esc> closes the dialog
-    [indx,tf] = listdlg('ListString',list, 'Name','Dynamics Final Project: Main Menu','PromptString',{'Please select a scenario:'},'ListSize',[350,100],'SelectionMode','single');
+    [indx,tf] = listdlg('ListString',list, 'Name','Dynamics Final Project','PromptString',{'Please select a scenario:'},'ListSize',[350,100],'SelectionMode','single');
     Nindx=numel(indx);
     
     for iindx=1:Nindx
@@ -17,13 +17,13 @@ while tf==1
     iopt=indx(iindx);
     switch iopt
         case 1
-            load('Inner_Planets.mat')
+            load('Earth_Moon.mat')
             tf=0;
         case 2
-            load('Figure_8.mat')
+            load('Inner_Planets.mat')
             tf=0;
         case 3
-            load('Earth_Moon.mat')
+            load('Figure_8.mat')
             tf=0;
         case 4
             load('Random.mat')
@@ -112,14 +112,14 @@ figure('Color',[0.08 0.08 0.08],'Units','inches','InnerPosition',[2 1 6.5 3.65])
 set(gcf, 'InvertHardCopy', 'off');
 switch iopt
     case 1
-        bodies = ["Sun","Mercury","Venus","Earth","Mars","Rogue Star"];
-        lineType = ["-","-","-","-","-","--"];
-    case 2
-        bodies = ["1","2","3"];
-        lineType = ["-","--","-."];
-    case 3
         bodies = ["Earth","Moon"];
         lineType = ["-","-","-"];
+    case 2
+        bodies = ["Sun","Mercury","Venus","Earth","Mars","Rogue Star"];
+        lineType = ["-","-","-","-","-","--"];
+    case 3
+        bodies = ["1","2","3"];
+        lineType = ["-","--","-."];
     case 4
         bodies = ["1","2","3","4","5"];
         lineType = ["-","-","-","-","-"];
