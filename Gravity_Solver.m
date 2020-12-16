@@ -6,7 +6,7 @@ global G m nObjects;
 tf=1;
 while tf==1
     %menu text list
-    list = {'Inner Planet Solar System Simulation', 'Three Body System Simulation', 'Earth and Moon Simulation', 'Random Simulation'};
+    list = {'Inner Planet Solar System Simulation', 'Figure 8 System Simulation', 'Earth and Moon Simulation', 'Random Simulation'};
     %display the dialog box
     %cancel or <esc> closes the dialog
     [indx,tf] = listdlg('ListString',list, 'Name','Dynamics Final Project: Main Menu','PromptString',{'Please select a scenario:'},'ListSize',[350,100],'SelectionMode','single');
@@ -15,25 +15,21 @@ while tf==1
     for iindx=1:Nindx
     %Execute selected option
     iopt=indx(iindx);
-        if iopt==1
+    switch iopt
+        case 1
             load('Inner_Planets.mat')
             tf=0;
-        end
-
-        if iopt==2
+        case 2
             load('Figure_8.mat')
             tf=0;
-        end
-
-        if iopt==3
+        case 3
             load('Earth_Moon.mat')
             tf=0;
-        end
-
-        if iopt==4
+        case 4
             load('Random.mat')
             tf=0;
-        end
+        otherwise
+    end
     end
 end
 
@@ -76,15 +72,17 @@ ax.ZAxis.LineWidth = 0.75;
 camproj('perspective')
 cameratoolbar('SetMode','orbit')
 campos(camStart)
+camtarget('manual')
 camva(30)
 time = annotation('textbox','Color',[1 1 1],'LineStyle','none','FontSize',16);
 time.Position = [0.05 0.75 0.2 0.2];
 %% Simulation
 sol = leapfrog_solve(@a_func, y0, t);
 currentTime = now;
+%camtarget(sol(1,1:3))
 %% Animation
 % change array range to adjust what timeframe the animation plays over
-for i = 2:length(t)
+for i = 2:length(t)-1
     % Update trail using position data since start of simulation
     trl.XData = sol(2:i, ((1:nObjects)-1)*3+1);
     trl.YData = sol(2:i, ((1:nObjects)-1)*3+2);
@@ -102,9 +100,53 @@ for i = 2:length(t)
     
     % Display time in sim in relation to current time
     time.String = datestr(seconds(t(i)),'HH:MM:SS.FFF mm-dd-yyyy');
+    %dx = (sol(i,1)-sol(i-1,1));
+    %dy = (sol(i,2)-sol(i-1,2));
+    %dz = (sol(i,3)-sol(i-1,3));
+    %camdolly(dx,dy,dz,'movetarget','data')
     drawnow
 end
 %print('Random','-djpeg','-r300');
+%% Plotting absolute velocity
+figure('Color',[0.08 0.08 0.08],'Units','inches','InnerPosition',[2 1 6.5 3.65])
+set(gcf, 'InvertHardCopy', 'off');
+switch iopt
+    case 1
+        bodies = ["Sun","Mercury","Venus","Earth","Mars","Rogue Star"];
+        lineType = ["-","-","-","-","-","--"];
+    case 2
+        bodies = ["1","2","3"];
+        lineType = ["-","--","-."];
+    case 3
+        bodies = ["Earth","Moon"];
+        lineType = ["-","-","-"];
+    case 4
+        bodies = ["1","2","3","4","5"];
+        lineType = ["-","-","-","-","-"];
+    otherwise
+        bodies = [];
+end
+hold on
+for obj = 1:nObjects
+    plot(datetime(0000,1,1)+seconds(t),...
+        vecnorm(sol(:,((obj-1)*3+1:obj*3)+nObjects*3),2,2),...
+        'Color',colors(obj,:)/256,'LineWidth',1.5,'DisplayName',bodies(obj),'LineStyle',lineType(obj))
+end
+legend('Color',[0.08 0.08 0.08],'TextColor',[1 1 1])
+ax = gca;
+ax.Color = [0.08 0.08 0.08];
+ax.XGrid = 'on';
+ax.YGrid = 'on';
+ax.GridColor = [1 1 1];
+ax.XColor = [0.9 0.9 0.9];
+ax.XAxis.LineWidth = 0.75;
+ax.YColor = [0.9 0.9 0.9];
+ax.YAxis.LineWidth = 0.75;
+ax.ZColor = [0.9 0.9 0.9];
+ax.ZAxis.LineWidth = 0.75;
+xlabel('Time (MATLAB Datetime)')
+ylabel('Absolute Velocity [m/s]')
+print('Velocity-plot','-djpeg','-r300');
 %% acceleration function
 function [ydot] = a_func(t, y)
 % Given vector y, output its derivative (velocity and acceleration in this case)
