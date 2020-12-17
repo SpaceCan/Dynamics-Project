@@ -72,7 +72,6 @@ ax.ZAxis.LineWidth = 0.75;
 camproj('perspective')
 cameratoolbar('SetMode','orbit')
 campos(camStart)
-camtarget('manual')
 camva(30)
 time = annotation('textbox','Color',[1 1 1],'LineStyle','none','FontSize',16);
 time.Position = [0.05 0.75 0.2 0.2];
@@ -113,7 +112,7 @@ set(gcf, 'InvertHardCopy', 'off');
 switch iopt
     case 1
         bodies = ["Earth","Moon"];
-        lineType = ["-","-","-"];
+        lineType = ["-","-"];
     case 2
         bodies = ["Sun","Mercury","Venus","Earth","Mars","Rogue Star"];
         lineType = ["-","-","-","-","-","--"];
