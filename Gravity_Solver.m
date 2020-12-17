@@ -39,7 +39,6 @@ t = 0:dt:t_f;
 nObjects = round(length(r)/3);
 %% Setting up spacial plot
 fig = figure('Color',[0.08 0.08 0.08],'Units','normalized','InnerPosition',[0.25/2 0.25/2 0.75 0.75]);
-%fig = figure('Color',[0.08 0.08 0.08],'Units','inches','InnerPosition',[2 1 6.5 3.65]);
 set(fig, 'InvertHardCopy', 'off');
 % Trail graphics object
 trl = quiver3(r(((1:nObjects)-1)*3+1),...
@@ -78,7 +77,6 @@ time.Position = [0.05 0.75 0.2 0.2];
 %% Simulation
 sol = leapfrog_solve(@a_func, y0, t);
 currentTime = now;
-%camtarget(sol(1,1:3))
 %% Animation
 % change array range to adjust what timeframe the animation plays over
 for i = 2:length(t)-1
@@ -99,13 +97,8 @@ for i = 2:length(t)-1
     
     % Display time in sim in relation to current time
     time.String = datestr(seconds(t(i)),'HH:MM:SS.FFF mm-dd-yyyy');
-    %dx = (sol(i,1)-sol(i-1,1));
-    %dy = (sol(i,2)-sol(i-1,2));
-    %dz = (sol(i,3)-sol(i-1,3));
-    %camdolly(dx,dy,dz,'movetarget','data')
     drawnow
 end
-%print('Random','-djpeg','-r300');
 %% Plotting absolute velocity
 figure('Color',[0.08 0.08 0.08],'Units','inches','InnerPosition',[2 1 6.5 3.65])
 set(gcf, 'InvertHardCopy', 'off');
